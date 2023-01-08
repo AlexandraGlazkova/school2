@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.exception.FacultyNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
@@ -10,6 +11,7 @@ import ru.hogwarts.school.repositories.StudentRepository;
 
 
 import java.util.Collection;
+import java.util.Comparator;
 
 @Service
 public class FacultyService {
@@ -71,5 +73,11 @@ public class FacultyService {
             return null;
         }
         return studentRepository.findByFacultyId(faculty.getId());
+    }
+    public String getFacultiesWithLongestName() {
+        return facultyRepository.findAll().stream()
+                .max(Comparator.comparingInt(e -> e.getName().length()))
+                .orElseThrow(() -> new FacultyNotFoundException())
+                .getName();
     }
 }

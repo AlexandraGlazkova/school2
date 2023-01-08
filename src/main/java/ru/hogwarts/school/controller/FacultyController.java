@@ -44,7 +44,10 @@ public class FacultyController {
     public ResponseEntity<Collection<Student>> getFacultyStudents(@PathVariable Long id) {
         return ResponseEntity.ok(facultyService.getFacultyStudents(id));
     }
-
+    @GetMapping("/longest-name")
+    public ResponseEntity<String> getFacultiesWithLongestName() {
+        return ResponseEntity.ok(facultyService.getFacultiesWithLongestName());
+    }
     @PostMapping // POST http://localhost:8080/faculty
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return facultyService.createFaculty(faculty);

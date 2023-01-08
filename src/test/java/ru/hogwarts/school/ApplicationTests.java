@@ -18,7 +18,7 @@ import java.util.Collection;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ApplicationTests {
+class ApplicationTests {
 
     @LocalServerPort
     private int port;
