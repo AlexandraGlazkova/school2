@@ -16,9 +16,9 @@ CREATE TABLE faculty
 CREATE TABLE avatar
 (
     id        SERIAL PRIMARY KEY,
-    filePath  VARCHAR,
-    fileSize  VARCHAR,
-    mediaType VARCHAR,
+    file_path  VARCHAR,
+    file_size  VARCHAR,
+    media_type VARCHAR,
     data VARCHAR
 
 );
