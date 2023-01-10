@@ -53,10 +53,18 @@ public class StudentController {
     public ResponseEntity<Double> getAverageAge() {
         return ResponseEntity.ok(studentService.getAverageAge());
     }
+    @GetMapping("/average-age-with-stream")
+    public ResponseEntity<Double> getAverageAgeWithStream() {
+        return ResponseEntity.ok(studentService.getAverageAgeWithStream());
+    }
 
     @GetMapping("/last-students")
     public ResponseEntity<List<ListOfStudents>> getLastStudentsById(@RequestParam Integer limit) {
         return ResponseEntity.ok(studentService.getLastStudentsById(limit));
+    }
+    @GetMapping("/name-starts-with")
+    public ResponseEntity<List<String>> getStudentsByNameStartsWith(@RequestParam String letter) {
+        return ResponseEntity.ok(studentService.getStudentsByNameStartsWith(letter));
     }
 
     @PostMapping // POST http://localhost:8080/student
