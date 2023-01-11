@@ -17,7 +17,7 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
-
+    private int threadSyncCounter = 0;
     public StudentService(StudentRepository studentRepository) {
         logger.debug("Calling constructor StudentService");
         this.studentRepository = studentRepository;
@@ -97,5 +97,73 @@ public class StudentService {
                 .mapToDouble(user -> user.getAge())
                 .average()
                 .orElse(Double.NaN);
+    }
+    public void echoAllStudentNames() {
+        List<String> names = studentRepository.findAll().stream()
+                .map(user -> user.getName())
+                .collect(Collectors.toList());
+
+        printToConsole(names.get(0));
+        printToConsole(names.get(1));
+
+        Thread thread1 = new Thread(() -> {
+            printToConsole(names.get(2));
+            printToConsole(names.get(3));
+        });
+        thread1.start();
+
+        Thread thread2 = new Thread(() -> {
+            printToConsole(names.get(4));
+            printToConsole(names.get(5));
+        });
+        thread2.start();
+    }
+
+    public void echoAllStudentNamesSync() {
+        List<String> names = studentRepository.findAll().stream()
+                .map(user -> user.getName())
+                .collect(Collectors.toList());
+
+        printToConsoleSync(names);
+        printToConsoleSync(names);
+
+        Thread thread1 = new Thread(() -> {
+            printToConsoleSync(names);
+            printToConsoleSync(names);
+        });
+        thread1.start();
+
+        Thread thread2 = new Thread(() -> {
+            printToConsoleSync(names);
+            printToConsoleSync(names);
+        });
+        thread2.start();
+    }
+
+    private void printToConsole(String str) {
+        System.out.println(str);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private synchronized void printToConsoleSync(List<String> names) {
+        System.out.println(names.get(threadSyncCounter));
+        threadSyncCounter++;
+    }
+
+    private void joinThread(Thread thread) {
+        if (thread.isAlive()) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private synchronized void printToConsoleSync(String str) {
+        System.out.println(str);
     }
 }

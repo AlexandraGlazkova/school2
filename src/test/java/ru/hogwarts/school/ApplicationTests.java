@@ -151,9 +151,9 @@ public class ApplicationTests {
                 "http://localhost:" + port + "/student/" + createdStudent.getId());
 
         // Try to get the deleted student by its id.
-        ResponseEntity<Student> response = restTemplate.getForEntity(
+        ResponseEntity<String> response = restTemplate.getForEntity(
                 "http://localhost:" + port + "/student/" + createdStudent.getId(),
-                Student.class);
+                String.class);
 
         // Check that the deleted student not found in the db
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);

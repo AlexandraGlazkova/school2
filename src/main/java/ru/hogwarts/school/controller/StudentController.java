@@ -66,6 +66,15 @@ public class StudentController {
     public ResponseEntity<List<String>> getStudentsByNameStartsWith(@RequestParam String letter) {
         return ResponseEntity.ok(studentService.getStudentsByNameStartsWith(letter));
     }
+    @GetMapping("/names")
+    public void echoAllStudentNames() {
+        studentService.echoAllStudentNames();
+    }
+
+    @GetMapping("/names-sync")
+    public void echoAllStudentNamesSync() {
+        studentService.echoAllStudentNamesSync();
+    }
 
     @PostMapping // POST http://localhost:8080/student
     public Student createStudent(@RequestBody Student student) {
